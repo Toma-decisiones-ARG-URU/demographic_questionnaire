@@ -189,10 +189,17 @@ var macarthur_scale_trial = {
   `
 };
 
-// Add both to your timeline
-// timeline.push(age_exact_trial, age_group_trial);
+
+var go_next = {
+  type: jsPsychCallFunction,
+  func: function () {
+    window.location.href = "https://hfinykebbv.cognition.run?pid=" + encodeURIComponent(RUN_ID);
+  }
+};
+
+
 
 timeline.push(demographics_trial, educational_level_trial,
-              macarthur_scale_trial);
+              macarthur_scale_trial, go_next);
 
 jsPsych.run(timeline);
