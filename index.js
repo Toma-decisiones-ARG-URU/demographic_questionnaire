@@ -37,8 +37,15 @@ async function startExperiment() {
   });
 
   // 1. Fetch the markdown file 
-  const response = await fetch('assets/consentimiento_informado.md');
-  const markdownText = await response.text();
+  let markdownText = '';
+  for (const path of ['assets/consentimiento_informado.md', 'consentimiento_informado.md']) {
+    try {
+      const response = await fetch(path);
+      const text = await response.text();
+      if (response.ok && !/<title>404/i.test(text)) { markdownText = text; break; }
+    } catch (e) {}
+  }
+  if (!markdownText) markdownText = '# Consentimiento informado\n\nNo se pudo cargar el texto del consentimiento. Por favor, contacte al equipo de investigación.';
 
   // 2. Convert the Markdown to HTML using marked.js
   
