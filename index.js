@@ -202,6 +202,6 @@ var jsPsych = initJsPsych({
 
 
 timeline.push(demographics_trial, educational_level_trial,
-              macarthur_scale_trial, go_next);
+              macarthur_scale_trial);
 
 jsPsych.run(timeline);
