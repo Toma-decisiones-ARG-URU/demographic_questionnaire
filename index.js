@@ -190,13 +190,15 @@ var macarthur_scale_trial = {
 };
 
 
-var go_next = {
-  type: jsPsychCallFunction,
-  func: function () {
-    window.location.href = "https://hfinykebbv.cognition.run?pid=" + encodeURIComponent(RUN_ID);
+var jsPsych = initJsPsych({
+  on_finish: function() {
+    // Disable the browser's leave site warning
+    window.onbeforeunload = null;
+    
+    // Redirect to the next task
+    window.location.href = "LINK_OF_NEXT_TASK?pid=" + encodeURIComponent(RUN_ID);
   }
-};
-
+});
 
 
 timeline.push(demographics_trial, educational_level_trial,
