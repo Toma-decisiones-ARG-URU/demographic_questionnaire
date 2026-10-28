@@ -196,7 +196,7 @@ var jsPsych = initJsPsych({
     window.onbeforeunload = null;
     
     // Redirect to the next task
-    window.location.href = "https://hfinykebbv.cognition.run?pid=" + encodeURIComponent(RUN_ID);
+    window.location.href = "https://ky7itfm5ft.cognition.run?pid=" + encodeURIComponent(RUN_ID);
   }
 });
 
