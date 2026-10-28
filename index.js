@@ -1,6 +1,27 @@
 // ONLY define the timeline at the top
 var timeline = [];
 
+function simpleMarkdown(md) {
+  const inline = s => s
+    .replace(/&/g, '&amp;').replace(/</g, '&lt;')
+    .replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>')
+    .replace(/(^|[^*])\*(?!\s)(.+?)\*/g, '$1<em>$2</em>')
+    .replace(/\[([^\]]+)\]\(([^)]+)\)/g, '<a href="$2" target="_blank">$1</a>');
+  let html = '', inList = false, para = [];
+  const flushPara = () => { if (para.length) { html += '<p>' + inline(para.join(' ')) + '</p>'; para = []; } };
+  const closeList = () => { if (inList) { html += '</ul>'; inList = false; } };
+  md.split(/\r?\n/).forEach(line => {
+    let m;
+    if (!line.trim()) { flushPara(); closeList(); }
+    else if ((m = line.match(/^(#{1,6})\s+(.*)$/))) { flushPara(); closeList(); html += `<h${m[1].length}>${inline(m[2])}</h${m[1].length}>`; }
+    else if ((m = line.match(/^\s*[-*+]\s+(.*)$/))) { flushPara(); if (!inList) { html += '<ul>'; inList = true; } html += '<li>' + inline(m[1]) + '</li>'; }
+    else if (/^\s*(-{3,}|\*{3,})\s*$/.test(line)) { flushPara(); closeList(); html += '<hr>'; }
+    else { closeList(); para.push(line.trim()); }
+  });
+  flushPara(); closeList();
+  return html;
+}
+
 // Wrap your setup in an async function
 async function startExperiment() {
   
@@ -15,12 +36,14 @@ async function startExperiment() {
     }
   });
 
-  // 1. Fetch the markdown file (Notice the path change here)
+  // 1. Fetch the markdown file 
   const response = await fetch('assets/consentimiento_informado.md');
   const markdownText = await response.text();
 
   // 2. Convert the Markdown to HTML using marked.js
-  const consent_html = marked.parse(markdownText);
+  
+  const consent_html = simpleMarkdown(markdownText);
+  //const consent_html = marked.parse(markdownText);
 
   // 3. Create the consent trial
   var consent_trial = {
