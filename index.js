@@ -196,12 +196,12 @@ var jsPsych = initJsPsych({
     window.onbeforeunload = null;
     
     // Redirect to the next task
-    window.location.href = "LINK_OF_NEXT_TASK?pid=" + encodeURIComponent(RUN_ID);
+    window.location.href = "https://hfinykebbv.cognition.run?pid=" + encodeURIComponent(RUN_ID);
   }
 });
 
 
 timeline.push(demographics_trial, educational_level_trial,
-              macarthur_scale_trial);
+              macarthur_scale_trial );
 
 jsPsych.run(timeline);
