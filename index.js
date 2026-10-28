@@ -34,6 +34,8 @@ async function startExperiment() {
     margin_vertical: '20px'
   };
 
+
+
   var demographics_trial = {
     type: jsPsychSurveyHtmlForm,
     preamble: '<h3>Por favor, complete la siguiente información</h3>',
@@ -44,17 +46,17 @@ async function startExperiment() {
           type="text" 
           name="country_birth" 
           id="country_birth_input" 
-          style="padding: 8px; font-size: 16px; width: 100%; max-width: 400px;" 
+          style="padding: 8px; font-size: 15px; width: 100%; max-width: 400px;" 
           required
         >
       </div>
       <div style="margin-bottom: 30px; text-align: left;">
-        <p style="margin-bottom: 5px;">Pais y lugar de residencia actual:</p>
+        <p style="margin-bottom: 5px;">Pais y ciudad de residencia actual:</p>
         <input 
           type="text" 
           name="place_current" 
           id="place_current_input" 
-          style="padding: 8px; font-size: 16px; width: 100%; max-width: 400px;" 
+          style="padding: 8px; font-size: 15px; width: 100%; max-width: 400px;" 
           required
         >
       </div>
@@ -65,7 +67,7 @@ async function startExperiment() {
           type="date" 
           name="birthdate" 
           id="birthdate_input" 
-          style="padding: 8px; font-size: 16px; font-family: inherit; cursor: pointer; width: 100%; max-width: 400px;" 
+          style="padding: 8px; font-size: 15px; font-family: inherit; cursor: pointer; width: 100%; max-width: 400px;" 
           required
         >
       </div>
@@ -74,11 +76,13 @@ async function startExperiment() {
         <p>Género:</p>
         <select name="gender_input" id="gender_select" style="padding: 8px; font-size: 16px; width: 100%; max-width: 400px;" required>
           <option value="" disabled selected>Seleccione una opción...</option>
-          <option value="Femenino">Femenino</option>
-          <option value="Masculino">Masculino</option>
-          <option value="No binario">No binario</option>
-          <option value="Otro">Otro</option>
+          <option value="Mujer">Mujer</option>
+          <option value="Varon">Varon</option>
+          <option value="No binarie">No binarie</option>
+          <option value="Mujer trans">Mujer trans</option>
+          <option value="Varon trans">Varon trans</option>
           <option value="Prefiero no decirlo">Prefiero no decirlo</option>
+          <option value="Otro">Otro</option>
         </select>
       </div>
     `
@@ -89,7 +93,7 @@ async function startExperiment() {
     html: `
       <div style="margin-bottom: 40px; text-align: left;">
         <p>¿Cuál es tu máximo nivel de estudios alcanzado?</p>
-        <select name="Nivel_Educativo" id="edu-select-participant" style="padding: 8px; font-size: 16px; width: 100%; max-width: 400px;" required>
+        <select name="Nivel_Educativo" id="edu-select-participant" style="padding: 8px; font-size: 15px; width: 100%; max-width: 400px;" required>
           <option value="" disabled selected>Seleccione una opción...</option>
           <option value="Primario incompleto">Primario incompleto</option>
           <option value="Primario en curso">Primario en curso</option>
@@ -110,8 +114,8 @@ async function startExperiment() {
       </div>
 
       <div style="margin-bottom: 20px; text-align: left;">
-        <p>¿Cuál es el maximo nivel de estudios alcanzado por tu <strong>madre</strong>?</p>
-        <select name="educational_level_mother" id="edu-select-mother" style="padding: 8px; font-size: 16px; width: 100%; max-width: 400px;" required>
+        <p>¿Cuál es el máximo nivel de estudios alcanzado por tu <strong>madre/cuidadora</strong> principal??</p>
+        <select name="educational_level_mother" id="edu-select-mother" style="padding: 8px; font-size: 15px; width: 100%; max-width: 400px;" required>
           <option value="" disabled selected>Seleccione una opción...</option>
           <option value="Primario incompleto">Primario incompleto</option>
           <option value="Primario en curso">Primario en curso</option>
@@ -132,8 +136,8 @@ async function startExperiment() {
       </div>
       
       <div style="margin-bottom: 20px; text-align: left;">
-        <p>¿Cuál es el maximo nivel de estudios alcanzado por tu <strong>padre</strong>?</p>
-        <select name="educational_level_father" id="edu-select-father" style="padding: 8px; font-size: 16px; width: 100%; max-width: 400px;" required>
+      <p>¿Cuál es el máximo nivel de estudios alcanzado por tu <strong>padre o figura paterna</strong> principal??</p>
+        <select name="educational_level_father" id="edu-select-father" style="padding: 8px; font-size: 15px; width: 100%; max-width: 400px;" required>
           <option value="" disabled selected>Seleccione una opción...</option>
           <option value="Primario incompleto">Primario incompleto</option>
           <option value="Primario en curso">Primario en curso</option>
@@ -155,30 +159,41 @@ async function startExperiment() {
     `
   };
 
-  var educ_level_self = {
-    type: jsPsychSurveyMultiChoice,
-    questions: [
-      {
-        prompt: "What is your age group?",
-        name: 'Age_Group',
-        options: [
-          "Under 18",
-          "18-24",
-          "25-34",
-          "35-44",
-          "45-54",
-          "55-64",
-          "65 or older"
-        ],
-        required: true 
-      }
-    ]
+  var childhood_cohabitation_trial = {
+    type: jsPsychSurveyHtmlForm,
+    html: `
+      <div style="margin-bottom: 30px; text-align: left; max-width: 800px; margin: 0 auto;">
+        <p style="margin-bottom: 10px; font-size: 16px;">
+          Pensando en el período de tu crianza durante la mayor parte de tu infancia y adolescencia, ¿con quién conviviste o pasaste la mayor parte del tiempo?
+        </p>
+        
+        <select name="childhood_cohabitation" id="cohabitation_select" style="padding: 8px; font-size: 15px; width: 100%; margin-bottom: 15px;" required>
+          <option value="" disabled selected>Seleccione una opción...</option>
+          <option value="Exclusivamente madre">Exclusivamente o casi exclusivamente con mi madre (o figura materna)</option>
+          <option value="Mayoritariamente madre">Mayoritariamente con mi madre (o figura materna), pero también con mi padre (o figura paterna)</option>
+          <option value="Mismo tiempo ambos">Aproximadamente el mismo tiempo con ambos</option>
+          <option value="Mayoritariamente padre">Mayoritariamente con mi padre (o figura paterna), pero también con mi madre (o figura materna)</option>
+          <option value="Exclusivamente padre">Exclusivamente o casi exclusivamente con mi padre (o figura paterna)</option>
+          <option value="Otro">Otro/s (especificar abajo)</option>
+        </select>
+        
+        <p style="margin-bottom: 5px; font-size: 14px; color: #555;">Si seleccionaste "Otro/s", por favor especificá:</p>
+        <input 
+          type="text" 
+          name="childhood_cohabitation_other" 
+          id="cohabitation_other_input" 
+          style="padding: 8px; font-size: 15px; width: 100%;"
+          placeholder="Especificar..."
+        >
+      </div>
+    `,
+    button_label: 'Continuar'
   };
 
   var macarthur_scale_trial = {
     type: jsPsychSurveyHtmlForm,
     preamble: `
-      <div style="margin-bottom: 20px;">
+    <div style="margin-bottom: 30px; text-align: left; max-width: 800px; margin: 0 auto; font-size: 15px;">
         <p>Imagine que esta escalera representa el lugar que ocupan las personas en nuestra sociedad.</p>
         <p>En la parte superior de la escalera se encuentran las personas que están en una mejor posición:
         los que tienen más dinero, mayor nivel educativo y los mejores empleos.</p>
@@ -193,7 +208,6 @@ async function startExperiment() {
     html: `
       <div style="display: flex; justify-content: center; align-items: stretch; gap: 40px; margin-bottom: 20px;">
         
-        <!-- Fix: Changed 'img/ladder.png' to 'assets/ladder.png' -->
         <div>
           <img src="assets/ladder.png" alt="MacArthur Ladder" style="height: 350px; width: auto;">
         </div>
@@ -212,11 +226,12 @@ async function startExperiment() {
         </div>
         
       </div>
-    `
+    `,
+    button_label: 'Continuar'
   };
 
   // Note: I added educ_level_self to the timeline here!
-  timeline.push(consent_trial, demographics_trial, educational_level_trial, educ_level_self, macarthur_scale_trial);
+  timeline.push(consent_trial, demographics_trial, educational_level_trial, childhood_cohabitation_trial, macarthur_scale_trial);
 
   jsPsych.run(timeline);
 
